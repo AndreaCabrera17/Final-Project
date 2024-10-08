@@ -1,0 +1,14 @@
+import yfinance as yf
+import pandas as pd
+
+# Define the ticker symbol for Tesla
+tesla_ticker = 'TSLA'
+
+# Download stock data for the past 5 years
+tesla_data = yf.download(tesla_ticker, start='2019-01-01', end='2024-01-01')
+
+# Display the first few rows
+print(tesla_data.head())
+
+# Optionally, save to CSV
+tesla_data.to_csv('tesla_stock_data.csv')
