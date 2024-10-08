@@ -1,0 +1,38 @@
+import plotly.graph_objs as go
+from plotly.subplots import make_subplots
+import pandas as pd
+
+# Load Tesla stock data
+tesla_stock = pd.read_csv('tesla_stock_data.csv', parse_dates=['Date'], index_col='Date')
+
+# Load Tesla revenue data
+tesla_revenue = pd.read_csv('tesla_revenue.csv')
+
+# Create a figure with secondary y-axis
+fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+# Add Tesla's Closing Price
+fig.add_trace(
+    go.Scatter(x=tesla_stock.index, y=tesla_stock['Close'], name='Tesla Close Price', line=dict(color='blue')),
+    secondary_y=False,
+)
+
+# Add Tesla's Revenue
+fig.add_trace(
+    go.Bar(x=tesla_revenue['Year'], y=tesla_revenue['Revenue (USD)'], name='Tesla Revenue', marker_color='orange'),
+    secondary_y=True,
+)
+
+# Update layout
+fig.update_layout(
+    title='Tesla Stock Price vs Revenue',
+    xaxis_title='Year',
+    legend=dict(x=0.01, y=0.99),
+)
+
+# Set y-axes titles
+fig.update_yaxes(title_text="Stock Price (USD)", secondary_y=False)
+fig.update_yaxes(title_text="Revenue (USD Millions)", secondary_y=True)
+
+# Show figure
+fig.show()
